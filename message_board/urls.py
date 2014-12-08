@@ -1,7 +1,7 @@
 from django.conf.urls import patterns, include, url
 
 from django.contrib import admin
-from messageBoard import urls as appurls
+from messageboard import urls as appurls
 
 admin.autodiscover()
 

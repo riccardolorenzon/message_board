@@ -1,6 +1,7 @@
 from django.shortcuts import render, redirect
 from models import Topic, Post
 from django.contrib.auth import authenticate, login, logout
+from django.contrib.auth.models import User
 
 # Create your views here.
 def check_user_auth(user):
@@ -56,3 +57,14 @@ def delete_post(request):
     topic_id = delete_post_obj.id
     delete_post_obj.delete()
     return redirect('topic-detail', topic_id = topic_id)
+
+def signup(request):
+    if request.method == "POST":
+        username = request.POST['username']
+        password = request.POST['password']
+        newUser = User()
+        newUser.username = username
+        newUser.set_password(password)
+        newUser.save()
+        return render(request, 'signup-complete.html', {})
+    return render(request, 'signup.html', {})
