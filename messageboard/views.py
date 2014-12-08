@@ -1,5 +1,5 @@
 from django.shortcuts import render, redirect
-from models import Topic
+from models import Topic, Post
 from django.contrib.auth import authenticate, login, logout
 
 # Create your views here.
@@ -39,3 +39,20 @@ def topic_detail(request, topic_id=None):
     ctx = {'topic': topic, 'user_login': check_user_auth(request.user),
            'posts': posts}
     return render(request, 'topic-detail.html', ctx)
+
+def add_post(request):
+    post_content = request.POST['post-content']
+    post_topic = Topic.objects.get(id=request.POST['topic_id'])
+    newPost = Post()
+    newPost.author = request.user
+    newPost.content = post_content
+    newPost.topic = post_topic
+    newPost.save()
+    return redirect('topic-detail', post_topic.id)
+
+def delete_post(request):
+    post_id = request.POST['post_id']
+    delete_post_obj = Post.objects.get(id=post_id)
+    topic_id = delete_post_obj.id
+    delete_post_obj.delete()
+    return redirect('topic-detail', topic_id = topic_id)

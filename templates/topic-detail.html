@@ -72,9 +72,32 @@
                             <input type="submit" class="btn btn-danger" value="Delete Post">
                         </form>
                     {% endif %}
+
                 </div>
             </div>
         {% endfor %}
+        {% if user_login == True %}
+            <a class="btn btn-success" data-toggle="modal" data-target="#newpost">
+                Add new post
+            </a>
+        {% endif %}
+    </div>
+    <div class="modal fade" role="dialog" id="newpost">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4>Add a Post</h4>
+                </div>
+                <form method="POST" action="{% url 'add-post' %}" class="centerdv" style="text-align:center">
+                    {% csrf_token %}
+                    <b>Post:</b>
+                    <textarea rows="4" cols="50" class="form-control" name="post-content"></textarea>
+                    <br>
+                    <input type="hidden" class="form-control" name="topic_id" value="{{ topic.id }}">
+                    <input type="submit" class="btn btn-success" value="New Post!">
+                </form>
+            </div>
+        </div>
     </div>
 </body>
 </html>
